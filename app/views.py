@@ -1,11 +1,14 @@
-from django.http import HttpResponse, JsonResponse
-from django.forms.models import model_to_dict
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+
 
 from .models import Detail
 
+@api_view(['GET'])
 def index(request):
-    return HttpResponse("Hey Extras!!! This is the ulitmate appreciation page for the Great Explosion Murder God Dynamight!")
+    return Response("Hey Extras!!! This is the ulitmate appreciation page for the Great Explosion Murder God Dynamight!")
 
+@api_view(['GET'])
 def general_details(request):
     details = Detail.objects.all()
     data1 = {}
@@ -28,7 +31,8 @@ def general_details(request):
         'Japanese VA': 'Nobuhiko Okamoto',
         'English VA': 'Clifford Chapin',
         'fighthing_style': 'close-ranged combat',
-        'education': ['Aldera Junior High', 'U.A. High School']
+        'education': ['Aldera Junior High', 'U.A. High School'],
+        'appearane': ['lean muscular build', 'sharp intense bright red eyes', 'short, spiky, ash blond hair with choppy bangs']
     }
     data = {**data1, **data2}
-    return JsonResponse(data)
+    return Response(data)
