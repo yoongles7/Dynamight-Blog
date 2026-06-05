@@ -1,4 +1,16 @@
 from pathlib import Path
+from dotenv import load_dotenv
+import os
+
+# Load .env file
+load_dotenv()
+
+# Access environment variables
+db_name = os.getenv("DB_NAME")
+db_user = os.getenv("DB_USER")
+db_password = os.getenv("DB_PASSWORD")
+db_host = os.getenv("DB_HOST")
+debug_mode = os.getenv("DEBUG")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -8,10 +20,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-$2ay7s7(*^(0&h)&#_^)4(wyy75l1c&p$ft%&)(^$17%r=*8o9'
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = debug_mode
 
 ALLOWED_HOSTS = []
 
@@ -66,10 +78,10 @@ WSGI_APPLICATION = 'blog.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'dynamightblog',
-        'USER': 'blasty',
-        'PASSWORD': 'K@tsuk!0420',
-        'HOST': 'localhost',
+        'NAME': db_name,
+        'USER': db_user,
+        'PASSWORD': db_password,
+        'HOST': db_host,
         'PORT': '5432',
     }
 }
