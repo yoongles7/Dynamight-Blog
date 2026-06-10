@@ -9,7 +9,7 @@ def index(request):
     return Response("Hey Extras!!! This is the ulitmate appreciation page for the Great Explosion Murder God Dynamight!")
 
 @api_view(['GET'])
-def general_details(request):
+def bakugo_details(request):
     details = Detail.objects.first()
     if details is None:
         return Response({"error": "data not found"}, status=404)

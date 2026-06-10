@@ -1,28 +1,36 @@
-# Python base image
-FROM python:3.12-slim-bookworm
+# BASE STAGE ----------------------------
+FROM python:3.12-slim-bookworm as base
 
-# App directory
 WORKDIR /Dynamight-Blog
 
 # Install system dependencies
-RUN apt-get update && apt-get install -y netcat-openbsd
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/*
 
-# Copy and install project dependencies
-COPY requirements/ /Dynamight-Blog/requirements
-RUN pip install -r requirements/development.txt
+# Copy requirements
+COPY requirements/base.txt requirements/
+RUN pip install --no-cache-dir -r requirements/base.txt
 
-# Copy app code into the container
+
+# DEVELOPMENT STAGE --------------------------------------
+FROM base as development
+
+# Install development dependencies
+COPY requirements/development.txt requirements/
+RUN pip install --no-cache-dir -r requirements/development.txt
+
+# Copy application code
 COPY . .
 
-# Set Port environment variable
-ENV PORT=8000
-# Expose the port to the computer to access it
-EXPOSE 8000
-
-# Run entrypoint.sh
+# Copy and set up entrypoint
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
 
-# Run the app
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000", "--settings=config.settings.development"]
+ENTRYPOINT [ "/entrypoint.sh" ]
+
+# Development command (runserver)
+CMD [ "python", "manage.py", "runserver", "0.0.0.0:8000", "--settings=config.settings.development" ]
+
+
+# PRODUCTION STAGE ----------------------------------------
+#FROM base as production
