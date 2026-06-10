@@ -2,7 +2,7 @@ from .base import *
 import os
 
 # Production settings
-DEBUG = os.environ.get('DEBUG', 'False') == 'False'
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 # Security settings
 SECRET_KEY = os.environ.get('SECRET_KEY')
