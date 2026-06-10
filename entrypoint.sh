@@ -9,28 +9,27 @@ python << EOF
 import os
 import time
 import sys
-from urllib.parse import urlparse
 
 # Try to connect using psycopg
 try:
-    import pyscopg
+    import psycopg
     from psycopg import OperationalError
 except ImportError:
     print("ERROR: psycopg not installed")
-    sys.exit()
+    sys.exit(1)
 
 host = os.getenv('DB_HOST', 'db')
 port = os.getenv('DB_PORT', '5432')
 dbname = os.getenv('DB_NAME', 'postgres')
-user = ose.getenv('DB_USER', 'postgres')
+user = os.getenv('DB_USER', 'postgres')
 password = os.getenv('DB_PASSWORD', '')
 
-max_attempts = 30 
+max_attempts = 30
 attempt = 0
 
 while attempt < max_attempts:
     try:
-        conn = pyscopg.connect(
+        conn = psycopg.connect(
             host=host,
             port=port,
             dbname=dbname,
@@ -39,14 +38,15 @@ while attempt < max_attempts:
             connect_timeout=2
         )
         conn.close()
-        print("Successfully connected to database at {host}:{port}")
+        print(f"Successfully connected to database at {host}:{port}")
         break
     except OperationalError as e:
-        atempt += 1
+        attempt += 1
         print(f"Attempt {attempt}/{max_attempts}: Database not ready yet - {str(e)}")
         time.sleep(1)
-        print(f"ERROR: Could not connect to database after {max_attempts} attempts")
-        sys.exit(1)
+else:
+    print(f"ERROR: Could not connect to database after {max_attempts} attempts")
+    sys.exit(1)
 EOF
 
 # Run migrations
