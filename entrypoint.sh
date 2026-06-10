@@ -2,8 +2,6 @@
 
 set -e
 
-echo "=== DEBUG: DB_HOST is set to: ${DB_HOST:-NOT SET} ==="
-
 echo "Waiting for PostgreSQL at ${DB_HOST:-db}:5432..."
 
 # Python db wait script
