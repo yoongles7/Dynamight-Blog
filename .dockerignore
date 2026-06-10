@@ -1,0 +1,29 @@
+# Environment variables
+venv
+.env*
+
+# Python 
+*.pyc
+__pycache__/
+
+# Git
+.git/
+.github/
+
+# Log files
+*.log
+
+# Safe to include
+db.sqlite3
+
+# Files
+media/
+static/
+tests/
+
+# Test cache
+.pytest_cache/
+
+# Documentation
+README.md 
+LICENSE

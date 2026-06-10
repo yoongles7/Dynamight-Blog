@@ -1,0 +1,31 @@
+services:
+  backend:
+    build: .
+    ports:
+      - '8000:8000'
+    volumes:
+      - .:/Dynamight-Blog
+    depends_on:
+      - db
+    env_file:
+      - .env
+    networks:
+      - app_network
+
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: blasty
+      POSTGRES_PASSWORD: K@tsuk!0420
+      POSTGRES_DB: dynamightblog
+      PGDATA: /var/lib/postgresql/data/pgdata 
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/pgdata
+    networks:
+      - app_network
+
+networks:
+  app_network:
+  
+volumes:
+  postgres_data:
