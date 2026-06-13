@@ -24,7 +24,7 @@ def create_bakugo_details(apps, schema_editor):
         'Blood Type': 'A',
         'Japanese VA': 'Nobuhiko Okamoto',
         'English VA': 'Clifford Chapin',
-        'fighthing_style': 'close-ranged combat',
+        'fighting_style': 'close-ranged combat',
         'education': ['Aldera Junior High', 'U.A. High School'],
         'appearance': ['lean muscular build', 'sharp intense bright red eyes', 'short, spiky, ash blond hair with choppy bangs'],
         'favorite_things': ['all spicy food', 'mountain climbing']
@@ -46,4 +46,3 @@ class Migration(migrations.Migration):
     operations = [
         migrations.RunPython(create_bakugo_details, reverse_migration),
     ]
-
